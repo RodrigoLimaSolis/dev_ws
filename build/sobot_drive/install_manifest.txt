@@ -1,0 +1,3 @@
+/dev_ws/install/sobot_drive/lib/libsobot_drive.so
+/dev_ws/install/sobot_drive/share/sobot_drive/cmake/export_sobot_driveExport.cmake
+/dev_ws/install/sobot_drive/share/sobot_drive/cmake/export_sobot_driveExport-noconfig.cmake
