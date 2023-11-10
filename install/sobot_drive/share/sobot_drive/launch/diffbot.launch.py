@@ -1,1 +1,1 @@
-/home/rods/dev_ws/src/sobot_drive/bringup/launch/diffbot.launch.py
+/dev_ws/src/sobot_drive/bringup/launch/diffbot.launch.py

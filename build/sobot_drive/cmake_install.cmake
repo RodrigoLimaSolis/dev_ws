@@ -1,8 +1,8 @@
-# Install script for directory: /home/rods/dev_ws/src/sobot_drive
+# Install script for directory: /dev_ws/src/sobot_drive
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/rods/dev_ws/install/sobot_drive")
+  set(CMAKE_INSTALL_PREFIX "/dev_ws/install/sobot_drive")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -43,7 +43,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  include("/home/rods/dev_ws/build/sobot_drive/ament_cmake_symlink_install/ament_cmake_symlink_install.cmake")
+  include("/dev_ws/build/sobot_drive/ament_cmake_symlink_install/ament_cmake_symlink_install.cmake")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -53,7 +53,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libsobot_drive.so"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/home/rods/dev_ws/build/sobot_drive/libsobot_drive.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/dev_ws/build/sobot_drive/libsobot_drive.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libsobot_drive.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libsobot_drive.so")
     file(RPATH_CHANGE
@@ -73,7 +73,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/sobot_drive/cmake/export_sobot_driveExport.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/sobot_drive/cmake/export_sobot_driveExport.cmake"
-         "/home/rods/dev_ws/build/sobot_drive/CMakeFiles/Export/share/sobot_drive/cmake/export_sobot_driveExport.cmake")
+         "/dev_ws/build/sobot_drive/CMakeFiles/Export/share/sobot_drive/cmake/export_sobot_driveExport.cmake")
     if(EXPORT_FILE_CHANGED)
       file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/sobot_drive/cmake/export_sobot_driveExport-*.cmake")
       if(OLD_CONFIG_FILES)
@@ -82,9 +82,9 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
       endif()
     endif()
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/sobot_drive/cmake" TYPE FILE FILES "/home/rods/dev_ws/build/sobot_drive/CMakeFiles/Export/share/sobot_drive/cmake/export_sobot_driveExport.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/sobot_drive/cmake" TYPE FILE FILES "/dev_ws/build/sobot_drive/CMakeFiles/Export/share/sobot_drive/cmake/export_sobot_driveExport.cmake")
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^()$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/sobot_drive/cmake" TYPE FILE FILES "/home/rods/dev_ws/build/sobot_drive/CMakeFiles/Export/share/sobot_drive/cmake/export_sobot_driveExport-noconfig.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/sobot_drive/cmake" TYPE FILE FILES "/dev_ws/build/sobot_drive/CMakeFiles/Export/share/sobot_drive/cmake/export_sobot_driveExport-noconfig.cmake")
   endif()
 endif()
 
@@ -96,5 +96,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/rods/dev_ws/build/sobot_drive/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/dev_ws/build/sobot_drive/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rods/dev_ws/src/sobot_drive
+CMAKE_SOURCE_DIR = /dev_ws/src/sobot_drive
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rods/dev_ws/build/sobot_drive
+CMAKE_BINARY_DIR = /dev_ws/build/sobot_drive
 
 # Include any dependencies generated for this target.
 include CMakeFiles/sobot_drive.dir/depend.make
@@ -70,18 +70,18 @@ include CMakeFiles/sobot_drive.dir/progress.make
 include CMakeFiles/sobot_drive.dir/flags.make
 
 CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o: CMakeFiles/sobot_drive.dir/flags.make
-CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o: /home/rods/dev_ws/src/sobot_drive/hardware/diffbot_system.cpp
+CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o: /dev_ws/src/sobot_drive/hardware/diffbot_system.cpp
 CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o: CMakeFiles/sobot_drive.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rods/dev_ws/build/sobot_drive/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o -MF CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o.d -o CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o -c /home/rods/dev_ws/src/sobot_drive/hardware/diffbot_system.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/dev_ws/build/sobot_drive/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o -MF CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o.d -o CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.o -c /dev_ws/src/sobot_drive/hardware/diffbot_system.cpp
 
 CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/rods/dev_ws/src/sobot_drive/hardware/diffbot_system.cpp > CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /dev_ws/src/sobot_drive/hardware/diffbot_system.cpp > CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.i
 
 CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rods/dev_ws/src/sobot_drive/hardware/diffbot_system.cpp -o CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /dev_ws/src/sobot_drive/hardware/diffbot_system.cpp -o CMakeFiles/sobot_drive.dir/hardware/diffbot_system.cpp.s
 
 # Object files for target sobot_drive
 sobot_drive_OBJECTS = \
@@ -176,10 +176,10 @@ libsobot_drive.so: /opt/ros/humble/lib/librosidl_typesupport_c.so
 libsobot_drive.so: /opt/ros/humble/lib/librosidl_typesupport_cpp.so
 libsobot_drive.so: /opt/ros/humble/lib/librosidl_typesupport_introspection_c.so
 libsobot_drive.so: /opt/ros/humble/lib/librosidl_typesupport_introspection_cpp.so
-libsobot_drive.so: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.1.0
+libsobot_drive.so: /usr/lib/aarch64-linux-gnu/libconsole_bridge.so.1.0
 libsobot_drive.so: /opt/ros/humble/lib/libclass_loader.so
 libsobot_drive.so: /opt/ros/humble/lib/libclass_loader.so
-libsobot_drive.so: /usr/lib/x86_64-linux-gnu/libtinyxml2.so
+libsobot_drive.so: /usr/lib/aarch64-linux-gnu/libtinyxml2.so
 libsobot_drive.so: /opt/ros/humble/lib/librcl.so
 libsobot_drive.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 libsobot_drive.so: /opt/ros/humble/lib/libtracetools.so
@@ -192,7 +192,7 @@ libsobot_drive.so: /opt/ros/humble/lib/liblifecycle_msgs__rosidl_typesupport_fas
 libsobot_drive.so: /opt/ros/humble/lib/liblifecycle_msgs__rosidl_typesupport_introspection_cpp.so
 libsobot_drive.so: /opt/ros/humble/lib/liblifecycle_msgs__rosidl_typesupport_cpp.so
 libsobot_drive.so: /opt/ros/humble/lib/liblifecycle_msgs__rosidl_generator_py.so
-libsobot_drive.so: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+libsobot_drive.so: /usr/lib/aarch64-linux-gnu/libpython3.10.so
 libsobot_drive.so: /opt/ros/humble/lib/librclcpp_lifecycle.so
 libsobot_drive.so: /opt/ros/humble/lib/librclcpp.so
 libsobot_drive.so: /opt/ros/humble/lib/librcl_lifecycle.so
@@ -204,7 +204,7 @@ libsobot_drive.so: /opt/ros/humble/lib/liblifecycle_msgs__rosidl_typesupport_cpp
 libsobot_drive.so: /opt/ros/humble/lib/liblifecycle_msgs__rosidl_generator_py.so
 libsobot_drive.so: /opt/ros/humble/lib/librcpputils.so
 libsobot_drive.so: /opt/ros/humble/lib/librcutils.so
-libsobot_drive.so: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.1.0
+libsobot_drive.so: /usr/lib/aarch64-linux-gnu/libconsole_bridge.so.1.0
 libsobot_drive.so: /opt/ros/humble/lib/liblibstatistics_collector.so
 libsobot_drive.so: /opt/ros/humble/lib/librosgraph_msgs__rosidl_typesupport_fastrtps_c.so
 libsobot_drive.so: /opt/ros/humble/lib/librosgraph_msgs__rosidl_typesupport_fastrtps_cpp.so
@@ -284,9 +284,9 @@ libsobot_drive.so: /opt/ros/humble/lib/librosidl_typesupport_c.so
 libsobot_drive.so: /opt/ros/humble/lib/librcpputils.so
 libsobot_drive.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 libsobot_drive.so: /opt/ros/humble/lib/librcutils.so
-libsobot_drive.so: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+libsobot_drive.so: /usr/lib/aarch64-linux-gnu/libpython3.10.so
 libsobot_drive.so: CMakeFiles/sobot_drive.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rods/dev_ws/build/sobot_drive/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libsobot_drive.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/dev_ws/build/sobot_drive/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libsobot_drive.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sobot_drive.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -298,6 +298,6 @@ CMakeFiles/sobot_drive.dir/clean:
 .PHONY : CMakeFiles/sobot_drive.dir/clean
 
 CMakeFiles/sobot_drive.dir/depend:
-	cd /home/rods/dev_ws/build/sobot_drive && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/rods/dev_ws/src/sobot_drive /home/rods/dev_ws/src/sobot_drive /home/rods/dev_ws/build/sobot_drive /home/rods/dev_ws/build/sobot_drive /home/rods/dev_ws/build/sobot_drive/CMakeFiles/sobot_drive.dir/DependInfo.cmake --color=$(COLOR)
+	cd /dev_ws/build/sobot_drive && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /dev_ws/src/sobot_drive /dev_ws/src/sobot_drive /dev_ws/build/sobot_drive /dev_ws/build/sobot_drive /dev_ws/build/sobot_drive/CMakeFiles/sobot_drive.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/sobot_drive.dir/depend
 

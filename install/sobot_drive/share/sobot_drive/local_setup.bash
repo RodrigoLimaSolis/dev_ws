@@ -1,1 +1,1 @@
-/home/rods/dev_ws/build/sobot_drive/ament_cmake_environment_hooks/local_setup.bash
+/dev_ws/build/sobot_drive/ament_cmake_environment_hooks/local_setup.bash
