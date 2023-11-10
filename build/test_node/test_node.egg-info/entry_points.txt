@@ -1,3 +1,0 @@
-[console_scripts]
-talker = test_node.talker:main
-

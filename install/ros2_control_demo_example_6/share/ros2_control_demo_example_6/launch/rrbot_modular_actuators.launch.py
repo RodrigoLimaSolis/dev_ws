@@ -1,1 +1,0 @@
-/dev_ws/src/ros2_control_demos/example_6/bringup/launch/rrbot_modular_actuators.launch.py

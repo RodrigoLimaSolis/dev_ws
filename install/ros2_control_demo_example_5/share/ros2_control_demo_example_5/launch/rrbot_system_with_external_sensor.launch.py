@@ -1,1 +1,0 @@
-/dev_ws/src/ros2_control_demos/example_5/bringup/launch/rrbot_system_with_external_sensor.launch.py
