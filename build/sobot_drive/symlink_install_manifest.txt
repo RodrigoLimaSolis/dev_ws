@@ -5,6 +5,8 @@
 /dev_ws/install/sobot_drive/share/sobot_drive/launch/view_robot.launch.py
 /dev_ws/install/sobot_drive/share/sobot_drive/ros2_control/diffbot.ros2_control.xacro
 /dev_ws/install/sobot_drive/share/sobot_drive/urdf/diffbot.urdf.xacro
+/dev_ws/install/sobot_drive/share/sobot_drive/urdf/inertial_macros.xacro
+/dev_ws/install/sobot_drive/share/sobot_drive/urdf/robot_core.xacro
 /dev_ws/install/sobot_drive/share/sobot_drive/launch/diffbot.launch.py
 /dev_ws/install/sobot_drive/share/sobot_drive/config/diffbot_controllers.yaml
 /dev_ws/install/sobot_drive/share/sobot_drive/environment/library_path.sh

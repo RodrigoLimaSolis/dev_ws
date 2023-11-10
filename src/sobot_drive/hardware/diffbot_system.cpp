@@ -221,6 +221,8 @@ hardware_interface::return_type SobotDriveHardware::read(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & period)
 {
 
+
+
   // Rotina para coletar os valores
   std::string  retorno = "";
   retorno = comms_.read_status();
@@ -328,7 +330,7 @@ hardware_interface::return_type SobotDriveHardware::read(
         hw_positions_[0] += temp_position;
       }
     }
-
+  
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   for (std::size_t i = 0; i < hw_velocities_.size(); i++)
   {
@@ -336,7 +338,7 @@ hardware_interface::return_type SobotDriveHardware::read(
     // Update the joint status: this is a revolute joint without any limit.
     // Simply integrates
     
-  // hw_positions_[i] = hw_positions_[i] + period.seconds() * hw_velocities_[i];
+  //hw_positions_[i] = hw_positions_[i] + period.seconds() * hw_velocities_[i];
 
     RCLCPP_INFO(
       rclcpp::get_logger("SobotDriveHardware"),
