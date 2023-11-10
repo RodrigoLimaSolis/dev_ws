@@ -4,6 +4,7 @@ import time
 
 usb = serial.Serial('/dev/ttyACM0', 57600, timeout=100, dsrdtr=False)
 
+#teste
 
 usb.write(b"LT E1 RD00 GR00 BL100")
 usb.write(b"MT0 ME1")
