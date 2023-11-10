@@ -46,7 +46,7 @@
     <link name="chassis">
         <visual>
             <geometry>
-                <mesh filename="package://sobot/description/meshes/sobot_chassis.dae" scale="1 1 1"/> 
+                <mesh filename="package://sobot_drive/meshes/sobot_chassis.dae" scale="1 1 1"/> 
             </geometry>
             <material name="grey"/>
         </visual>
@@ -76,7 +76,7 @@
         <visual>
                 <origin xyz="0.0 0.0 0.0" rpy="-1.57 0 0" />
             <geometry>
-                <mesh filename="package://sobot/description/meshes/sobot_wheel.dae" scale="1 1 1"/> <!-- Colocar o arquivo STL-->
+                <mesh filename="package://sobot_drive/meshes/sobot_wheel.dae" scale="1 1 1"/> <!-- Colocar o arquivo STL-->
             </geometry>
         </visual>
         <collision>
@@ -104,7 +104,7 @@
         <visual>
             <origin xyz="0 0 0" rpy="1.57 0 0" />
             <geometry>
-                <mesh filename="package://sobot/description/meshes/sobot_wheel.dae" scale="1 1 1"/> <!-- Colocar o arquivo STL-->
+                <mesh filename="package://sobot_drive/meshes/sobot_wheel.dae" scale="1 1 1"/> <!-- Colocar o arquivo STL-->
             </geometry>
         </visual>
         <collision>

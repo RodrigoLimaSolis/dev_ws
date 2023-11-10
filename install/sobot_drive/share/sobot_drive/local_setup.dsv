@@ -1,3 +1,1 @@
-source;share/sobot_drive/environment/ament_prefix_path.sh
-source;share/sobot_drive/environment/library_path.sh
-source;share/sobot_drive/environment/path.sh
+/home/rods/dev_ws/build/sobot_drive/ament_cmake_environment_hooks/local_setup.dsv
