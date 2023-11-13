@@ -11,5 +11,7 @@
 
   <xacro:diffbot_ros2_control
     name="DiffBot" prefix="$(arg prefix)" use_mock_hardware="$(arg use_mock_hardware)"/>
+  
+  <xacro:include filename="lidar.xacro" />
 
 </robot>

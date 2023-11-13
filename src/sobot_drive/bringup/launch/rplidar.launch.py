@@ -12,7 +12,7 @@ def generate_launch_description():
             parameters=[{
                 'serial_port': '/dev/ttyUSB0',
                 'serial_baudrate': 115200,  # A1 / A2
-                'frame_id': 'odom',
+                'frame_id': 'laser_frame',
                 'inverted': False,
                 'angle_compensate': True,
             }],
