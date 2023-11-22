@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /dev_ws/src/sobot_drive
+CMAKE_SOURCE_DIR = /home/rods/dev_ws/src/sobot_drive
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /dev_ws/build/sobot_drive
+CMAKE_BINARY_DIR = /home/rods/dev_ws/build/sobot_drive
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -142,9 +142,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /dev_ws/build/sobot_drive/CMakeFiles /dev_ws/build/sobot_drive//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rods/dev_ws/build/sobot_drive/CMakeFiles /home/rods/dev_ws/build/sobot_drive//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /dev_ws/build/sobot_drive/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rods/dev_ws/build/sobot_drive/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
