@@ -152,10 +152,12 @@ hardware_interface::CallbackReturn SobotDriveHardware::on_activate(
 
   //Configurações Iniciais dos Motores
   comms_.connect(cfg_.device, cfg_.baud_rate, cfg_.timeout_ms);
-  comms_.send_msg("MT0 MC MD0 AT2000 DT2000 V10");
-  comms_.send_msg("LT E1 RD00 GR00 BL100");
+  comms_.send_msg("MT0 MC MD0 AT100 DT100 V5");
+  comms_.send_msg("WP MT1 WD100,20"); 
+  comms_.send_msg("WP MT2 WD99,95"); 
+  comms_.send_msg("WP DW260,40"); //280.7-20.3 
+  comms_.send_msg("LT E1 RD00 GR00 BL50");
   comms_.send_msg("MT0 ME1");
-
 
 
 
@@ -421,74 +423,74 @@ hardware_interface::return_type sobot_drive ::SobotDriveHardware::write(
 
           case FORWARD:
               sobot_movement_status = FORWARD;
-              comms_.send_msg("LT E1 RD00 GR100 BL00");
+              comms_.send_msg("LT E1 RD00 GR50 BL00");
               comms_.send_msg("MT0 MF");
               break;
 
           case BACKWARD:
               sobot_movement_status = BACKWARD;            
-              comms_.send_msg("LT E1 RD00 GR00 BL100");
+              comms_.send_msg("LT E1 RD00 GR00 BL50");
               comms_.send_msg("MT0 MB");
               break;
 
           case RIGHT:
               sobot_movement_status = RIGHT;
               
-              comms_.send_msg("LT E1 RD50 GR00 BL100");
-              comms_.send_msg("MT0 MC MD0 AT2000 DT2000 V10");
+              comms_.send_msg("LT E1 RD50 GR00 BL50");
+              comms_.send_msg("MT0 MC MD0 AT100 DT100 V5");
               comms_.send_msg("MT0 MR");
               break;
 
           case LEFT:
               sobot_movement_status = LEFT;
               
-              comms_.send_msg("LT E1 RD00 GR50 BL100");
-              comms_.send_msg("MT0 MC MD0 AT2000 DT2000 V10");
+              comms_.send_msg("LT E1 RD00 GR50 BL50");
+              comms_.send_msg("MT0 MC MD0 AT100 DT100 V5");
               comms_.send_msg("MT0 ML");
               break;
 
           case RIGHT_DIFF_FORWARD:
               sobot_movement_status = RIGHT_DIFF_FORWARD;
               
-              comms_.send_msg("LT E1 RD00 GR100 BL40");
-              comms_.send_msg("MT0 MC MD1 RI870 AT2000 DT2000 V10");
+              comms_.send_msg("LT E1 RD00 GR50 BL40");
+              comms_.send_msg("MT0 MC MD1 RI870 AT100 DT100 V5");
               comms_.send_msg("MT0 MR");
               break;
 
           case LEFT_DIFF_FORWARD:
               sobot_movement_status =LEFT_DIFF_FORWARD ;
               
-              comms_.send_msg("LT E1 RD40 GR100 BL00");
-              comms_.send_msg("MT0 MC MD1 RI870 AT2000 DT2000 V10"); 
+              comms_.send_msg("LT E1 RD40 GR50 BL00");
+              comms_.send_msg("MT0 MC MD1 RI870 AT100 DT100 V5"); 
               comms_.send_msg("MT0 ML");
               break;
 
           case RIGHT_DIFF_BACKWARD:
               sobot_movement_status = RIGHT_DIFF_BACKWARD;
               
-              comms_.send_msg("LT E1 RD100 GR50 BL100");
-              comms_.send_msg("MT0 MC MD1 RI870 AT2000 DT2000 V10"); 
+              comms_.send_msg("LT E1 RD50 GR50 BL50");
+              comms_.send_msg("MT0 MC MD1 RI870 AT100 DT100 V5"); 
               comms_.send_msg("MT0 MR-");
               break;
 
           case LEFT_DIFF_BACKWARD:
               sobot_movement_status = LEFT_DIFF_BACKWARD;
               
-              comms_.send_msg("LT E1 RD100 GR00 BL50");
-              comms_.send_msg("MT0 MC MD1 RI870 AT2000 DT2000 V10"); 
+              comms_.send_msg("LT E1 RD50 GR00 BL50");
+              comms_.send_msg("MT0 MC MD1 RI870 AT100 DT100 V5"); 
               comms_.send_msg("MT0 ML-");
               break;
           
           case PAUSE:
               
-              comms_.send_msg("LT E1 RD100 GR00 BL50");
+              comms_.send_msg("LT E1 RD50 GR00 BL50");
               comms_.send_msg("MT0 MP");
               break;
 
 
           case BREAK:
               
-              comms_.send_msg("LT E1 RD100 GR00 BL00");
+              comms_.send_msg("LT E1 RD50 GR00 BL00");
               comms_.send_msg("MT0 MB");
               break;
     }
