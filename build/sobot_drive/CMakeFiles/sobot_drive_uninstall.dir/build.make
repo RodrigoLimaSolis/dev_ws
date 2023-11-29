@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rods/dev_ws/src/sobot_drive
+CMAKE_SOURCE_DIR = /dev_ws/src/sobot_drive
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rods/dev_ws/build/sobot_drive
+CMAKE_BINARY_DIR = /dev_ws/build/sobot_drive
 
 # Utility rule file for sobot_drive_uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/sobot_drive_uninstall.dir/compiler_depend.make
 include CMakeFiles/sobot_drive_uninstall.dir/progress.make
 
 CMakeFiles/sobot_drive_uninstall:
-	/usr/bin/cmake -P /home/rods/dev_ws/build/sobot_drive/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
+	/usr/bin/cmake -P /dev_ws/build/sobot_drive/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
 
 sobot_drive_uninstall: CMakeFiles/sobot_drive_uninstall
 sobot_drive_uninstall: CMakeFiles/sobot_drive_uninstall.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/sobot_drive_uninstall.dir/clean:
 .PHONY : CMakeFiles/sobot_drive_uninstall.dir/clean
 
 CMakeFiles/sobot_drive_uninstall.dir/depend:
-	cd /home/rods/dev_ws/build/sobot_drive && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/rods/dev_ws/src/sobot_drive /home/rods/dev_ws/src/sobot_drive /home/rods/dev_ws/build/sobot_drive /home/rods/dev_ws/build/sobot_drive /home/rods/dev_ws/build/sobot_drive/CMakeFiles/sobot_drive_uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /dev_ws/build/sobot_drive && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /dev_ws/src/sobot_drive /dev_ws/src/sobot_drive /dev_ws/build/sobot_drive /dev_ws/build/sobot_drive /dev_ws/build/sobot_drive/CMakeFiles/sobot_drive_uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/sobot_drive_uninstall.dir/depend
 

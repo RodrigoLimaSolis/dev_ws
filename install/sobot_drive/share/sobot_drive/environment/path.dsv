@@ -1,1 +1,1 @@
-prepend-non-duplicate-if-exists;PATH;bin
+/dev_ws/build/sobot_drive/ament_cmake_environment_hooks/path.dsv

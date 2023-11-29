@@ -42,6 +42,10 @@ hardware_interface::CallbackReturn SobotDriveHardware::on_init(
   cfg_.device = info_.hardware_parameters["device"];
   cfg_.baud_rate = std::stoi(info_.hardware_parameters["baud_rate"]);
   cfg_.timeout_ms = std::stoi(info_.hardware_parameters["timeout_ms"]);
+  cfg_.update_rate = std::stoi(info_.hardware_parameters["update_rate"]);
+  cfg_.wheel_separation = std::stof(info_.hardware_parameters["wheel_separation"]);
+  cfg_.wheel_radius = std::stof(info_.hardware_parameters["wheel_radius"]);
+
 
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   hw_start_sec_ = std::stod(info_.hardware_parameters["example_param_hw_start_duration_sec"]);
@@ -51,7 +55,11 @@ hardware_interface::CallbackReturn SobotDriveHardware::on_init(
   hw_positions_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_velocities_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
-  old_hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());;
+  old_hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
+
+
+  PERIMETRO = cfg_.wheel_radius * 2 * M_PI;
+
   
   sobot_movement_status = PAUSE;
   sobot_status = PAUSE;
@@ -157,7 +165,7 @@ hardware_interface::CallbackReturn SobotDriveHardware::on_activate(
   comms_.send_msg("WP MT2 WD99,95"); 
   comms_.send_msg("WP DW260,40"); //280.7-20.3 
   comms_.send_msg("LT E1 RD00 GR00 BL50");
-  comms_.send_msg("MT0 ME1");
+  comms_.send_msg("MT0 E1");
 
 
 
@@ -198,6 +206,7 @@ hardware_interface::CallbackReturn SobotDriveHardware::on_deactivate(
 {
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "Deactivating ...please wait...");
+  comms_.send_msg("LT E0 RD00 GR00 BL00");
 
   comms_.disconnect();
 
@@ -361,22 +370,19 @@ hardware_interface::return_type sobot_drive ::SobotDriveHardware::write(
       rclcpp::get_logger("SobotDriveHardware"), "Hw_commands[0]: %f e o ultimo: %f", 
       hw_commands_[0], command_later);
 
-
-
-
       // CONTROLE DA ENTRADA DE MOVIMENTAÇÃO
       if((hw_commands_[0] > 0) && (hw_commands_[1] > 0)){
 
         if (hw_commands_[0] == hw_commands_[1]) sobot_status = FORWARD;
-        else if ((hw_commands_[0] < hw_commands_[1])&&(hw_commands_[0] == old_hw_commands_[0])) sobot_status = LEFT_DIFF_FORWARD;
-        else if ((hw_commands_[0] > hw_commands_[1])&&(hw_commands_[0] == old_hw_commands_[0])) sobot_status = RIGHT_DIFF_FORWARD;
+        else if (hw_commands_[0] < hw_commands_[1]) sobot_status = LEFT_DIFF_FORWARD;
+        else if (hw_commands_[0] > hw_commands_[1]) sobot_status = RIGHT_DIFF_FORWARD;
 
       } 
       else if ((hw_commands_[0] < 0) && (hw_commands_[1] < 0)){
 
         if (hw_commands_[0] == hw_commands_[1]) sobot_status = BACKWARD;
-        else if ((hw_commands_[0] < hw_commands_[1])&&(hw_commands_[0] == old_hw_commands_[0])) sobot_status = RIGHT_DIFF_BACKWARD;
-        else if ((hw_commands_[0] > hw_commands_[1])&&(hw_commands_[0] == old_hw_commands_[0])) sobot_status = LEFT_DIFF_BACKWARD;
+        else if (hw_commands_[0] < hw_commands_[1]) sobot_status = RIGHT_DIFF_BACKWARD;
+        else if (hw_commands_[0] > hw_commands_[1]) sobot_status = LEFT_DIFF_BACKWARD;
 
 
       }
@@ -386,119 +392,148 @@ hardware_interface::return_type sobot_drive ::SobotDriveHardware::write(
 
         if(hw_commands_[0] > hw_commands_[1]) sobot_status = RIGHT;
         if(hw_commands_[0] < hw_commands_[1]) sobot_status = LEFT;
-
       }
 
 
-      // CONTROLE DOS PAUSES
-      if((sobot_status == FORWARD)  || (sobot_status == RIGHT_DIFF_FORWARD) || (sobot_status == RIGHT))  {
-  
-        if(hw_commands_[0] < old_hw_commands_[0]) sobot_status = PAUSE;
+      char command_sobot[50];
+      float raio_curva = 0;
+      float distancia = 0;
+      float distancia_left, distancia_right, delta_ang,raio_separacao,delta_ang_graus;
 
-      }
-
-      else if((sobot_status == BACKWARD) ||(sobot_status == LEFT) || (sobot_status == RIGHT_DIFF_BACKWARD))  {
-  
-        if(hw_commands_[0] > old_hw_commands_[0]) sobot_status = PAUSE;
-
-      }
-      
-      else if(sobot_status == LEFT_DIFF_BACKWARD){ 
-       if((hw_commands_[0] > old_hw_commands_[0])&&(hw_commands_[1] > old_hw_commands_[1])) sobot_status = PAUSE;
-      }
-      
-      else if(sobot_status == LEFT_DIFF_FORWARD) if(hw_commands_[1] < old_hw_commands_[1]) sobot_status = PAUSE;
-
-
-      old_hw_commands_[1] = hw_commands_[1];
-      old_hw_commands_[0] = hw_commands_[0];
-
-
-
-    // SELECIONANDO TIPO DE MOVIMENTO
-    if(old_sobot_status != sobot_status ){
-
-      old_sobot_status = sobot_status;
+      //Executando o comando
       switch (sobot_status) {
 
           case FORWARD:
-              sobot_movement_status = FORWARD;
-              comms_.send_msg("LT E1 RD00 GR50 BL00");
-              comms_.send_msg("MT0 MF");
+              distancia = (hw_commands_[0] / (2 * M_PI)) ;
+              distancia =  distancia * PERIMETRO * 100;
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Porcentagem: %f Perimetro: %f",distancia, PERIMETRO);
+              sprintf(command_sobot, "MT0 D%d AT000 DT000 V%d", int(distancia),int(distancia));
+              comms_.send_msg(command_sobot);
               break;
 
           case BACKWARD:
-              sobot_movement_status = BACKWARD;            
-              comms_.send_msg("LT E1 RD00 GR00 BL50");
-              comms_.send_msg("MT0 MB");
+              distancia = (hw_commands_[0] / (2 * M_PI)) * PERIMETRO *100;
+              sprintf(command_sobot, "MT0 D%d AT000 DT000 V%d", int(distancia),int(distancia)*-1);
+              comms_.send_msg(command_sobot);
               break;
 
           case RIGHT:
               sobot_movement_status = RIGHT;
-              
-              comms_.send_msg("LT E1 RD50 GR00 BL50");
-              comms_.send_msg("MT0 MC MD0 AT100 DT100 V5");
-              comms_.send_msg("MT0 MR");
+              distancia = (hw_commands_[0] / (2 * M_PI)) * PERIMETRO; 
+              //RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Porcentagem: %f",distancia);
+              raio_curva = (distancia * 360 / cfg_.wheel_separation * M_PI)/10; 
+              //RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Porcentagem: %f",raio_curva/cfg_.update_rate);
+              sprintf(command_sobot, "MT0 D%d,%d%d R AT000 DT000 V%d", int(raio_curva/cfg_.update_rate), int(raio_curva/cfg_.update_rate*10)%10,int(raio_curva/cfg_.update_rate*100)%10,int(distancia*100));
+              comms_.send_msg(command_sobot);
               break;
 
           case LEFT:
               sobot_movement_status = LEFT;
-              
-              comms_.send_msg("LT E1 RD00 GR50 BL50");
-              comms_.send_msg("MT0 MC MD0 AT100 DT100 V5");
-              comms_.send_msg("MT0 ML");
+              distancia = ((hw_commands_[0] / (2 * M_PI)) * PERIMETRO) * -1; 
+              //RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Porcentagem: %f",distancia);
+              raio_curva = (distancia * 360 / cfg_.wheel_separation * M_PI)/10; 
+              //RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Porcentagem: %f",raio_curva/cfg_.update_rate);
+              sprintf(command_sobot, "MT0 D%d,%d%d L AT000 DT000 V%d", int(raio_curva/cfg_.update_rate), int(raio_curva/cfg_.update_rate*10)%10,int(raio_curva/cfg_.update_rate*100)%10,int(distancia*100));
+              comms_.send_msg(command_sobot);
               break;
 
           case RIGHT_DIFF_FORWARD:
               sobot_movement_status = RIGHT_DIFF_FORWARD;
-              
-              comms_.send_msg("LT E1 RD00 GR50 BL40");
-              comms_.send_msg("MT0 MC MD1 RI870 AT100 DT100 V5");
-              comms_.send_msg("MT0 MR");
+              distancia_left = ((hw_commands_[0] / (2 * M_PI)) * PERIMETRO); 
+              distancia_right = ((hw_commands_[1] / (2 * M_PI)) * PERIMETRO); 
+
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Distancia Left: %f Distancia Rigth: %f",distancia_left, distancia_right);
+
+              delta_ang = (distancia_left-distancia_right)/cfg_.wheel_separation;
+              delta_ang_graus = delta_ang*180/M_PI;
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Delta Angulo: %f - Graus: %f",delta_ang, delta_ang_graus);
+
+              raio_separacao = distancia_right/delta_ang;
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Raio de separação: %f",raio_separacao);
+              sprintf(command_sobot, "MT0 D%d,%d%d DF R RI%d V%d",int(delta_ang_graus/cfg_.update_rate), int(delta_ang_graus/cfg_.update_rate*10)%10, int(delta_ang_graus/cfg_.update_rate*100)%10,int(raio_separacao*1000), int(distancia_left*100));
+              comms_.send_msg(command_sobot);
               break;
 
-          case LEFT_DIFF_FORWARD:
+         case LEFT_DIFF_FORWARD:
               sobot_movement_status =LEFT_DIFF_FORWARD ;
               
-              comms_.send_msg("LT E1 RD40 GR50 BL00");
-              comms_.send_msg("MT0 MC MD1 RI870 AT100 DT100 V5"); 
-              comms_.send_msg("MT0 ML");
+              distancia_left = ((hw_commands_[0] / (2 * M_PI)) * PERIMETRO); 
+              distancia_right = ((hw_commands_[1] / (2 * M_PI)) * PERIMETRO); 
+
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Distancia Left: %f Distancia Rigth: %f",distancia_left, distancia_right);
+
+              delta_ang = (distancia_right - distancia_left)/cfg_.wheel_separation;
+              delta_ang_graus = delta_ang*180/M_PI;
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Delta Angulo: %f - Graus: %f",delta_ang, delta_ang_graus);
+
+              raio_separacao = distancia_left/delta_ang;
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Raio de separação: %f",raio_separacao);
+              sprintf(command_sobot, "MT0 D%d,%d%d DF L RI%d V%d",int(delta_ang_graus/cfg_.update_rate), int(delta_ang_graus/cfg_.update_rate*10)%10, int(delta_ang_graus/cfg_.update_rate*100)%10,int(raio_separacao*1000), int(distancia_right*100));
+              comms_.send_msg(command_sobot);
               break;
 
           case RIGHT_DIFF_BACKWARD:
               sobot_movement_status = RIGHT_DIFF_BACKWARD;
               
-              comms_.send_msg("LT E1 RD50 GR50 BL50");
-              comms_.send_msg("MT0 MC MD1 RI870 AT100 DT100 V5"); 
-              comms_.send_msg("MT0 MR-");
+              distancia_left = ((hw_commands_[0] / (2 * M_PI)) * PERIMETRO)*-1; 
+              distancia_right = ((hw_commands_[1] / (2 * M_PI)) * PERIMETRO)*-1; 
+
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Distancia Left: %f Distancia Rigth: %f",distancia_left, distancia_right);
+
+              delta_ang = (distancia_left-distancia_right)/cfg_.wheel_separation;
+              delta_ang_graus = delta_ang*180/M_PI;
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Delta Angulo: %f - Graus: %f",delta_ang, delta_ang_graus);
+
+              raio_separacao = distancia_right/delta_ang;
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Raio de separação: %f",raio_separacao);
+              sprintf(command_sobot, "MT0 D-%d,%d%d DF R RI%d V%d",int(delta_ang_graus/cfg_.update_rate), int(delta_ang_graus/cfg_.update_rate*10)%10, int(delta_ang_graus/cfg_.update_rate*100)%10,int(raio_separacao*1000), int(distancia_left*100));
+              comms_.send_msg(command_sobot);
               break;
 
           case LEFT_DIFF_BACKWARD:
               sobot_movement_status = LEFT_DIFF_BACKWARD;
               
-              comms_.send_msg("LT E1 RD50 GR00 BL50");
-              comms_.send_msg("MT0 MC MD1 RI870 AT100 DT100 V5"); 
-              comms_.send_msg("MT0 ML-");
+              distancia_left = ((hw_commands_[0] / (2 * M_PI)) * PERIMETRO)*-1; 
+              distancia_right = ((hw_commands_[1] / (2 * M_PI)) * PERIMETRO)*-1; 
+
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Distancia Left: %f Distancia Rigth: %f",distancia_left, distancia_right);
+
+              delta_ang = (distancia_right - distancia_left)/cfg_.wheel_separation;
+              delta_ang_graus = delta_ang*180/M_PI;
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Delta Angulo: %f - Graus: %f",delta_ang, delta_ang_graus);
+
+              raio_separacao = distancia_left/delta_ang;
+              RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Raio de separação: %f",raio_separacao);
+              sprintf(command_sobot, "MT0 D-%d,%d%d DF L RI%d V%d",int(delta_ang_graus/cfg_.update_rate), int(delta_ang_graus/cfg_.update_rate*10)%10, int(delta_ang_graus/cfg_.update_rate*100)%10,int(raio_separacao*1000), int(distancia_right*100));
+              comms_.send_msg(command_sobot);
               break;
           
-          case PAUSE:
+      //     case PAUSE:
               
-              comms_.send_msg("LT E1 RD50 GR00 BL50");
-              comms_.send_msg("MT0 MP");
-              break;
+      //         comms_.send_msg("LT E1 RD50 GR00 BL50");
+      //         comms_.send_msg("MT0 MP");
+      //         break;
 
 
-          case BREAK:
+      //     case BREAK:
               
-              comms_.send_msg("LT E1 RD50 GR00 BL00");
-              comms_.send_msg("MT0 MB");
-              break;
-    }
-  }
+      //         comms_.send_msg("LT E1 RD50 GR00 BL00");
+      //         comms_.send_msg("MT0 MB");
+      //         break;
+      }
+      
+      RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Mandando %s, distância: %f, raio: %f",command_sobot, distancia, raio_curva);
+
+
 
     RCLCPP_INFO(
       rclcpp::get_logger("SobotDriveHardware"), "Sobot Status: %d e Sobot Status Antigo: %d", 
       sobot_status, old_sobot_status);
+
+      old_hw_commands_[1] = hw_commands_[1];
+      old_hw_commands_[0] = hw_commands_[0];
+
+
 
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "Writing...");

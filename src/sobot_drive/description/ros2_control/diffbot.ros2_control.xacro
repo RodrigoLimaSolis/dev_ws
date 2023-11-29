@@ -13,7 +13,9 @@
           <param name="device">/dev/ttyACM0</param>
           <param name="baud_rate">57600</param>
           <param name="timeout_ms">1000</param>
-
+          <param name="update_rate">10</param>
+          <param name="wheel_separation">0.264</param>
+          <param name="wheel_radius">0.05</param>
         </hardware>
       </xacro:unless>
       <xacro:if value="${use_mock_hardware}">

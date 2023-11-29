@@ -45,6 +45,10 @@ struct Config
   std::string device = "";
   int baud_rate = 0;
   int timeout_ms = 0;
+  float update_rate = 0;  
+  float wheel_separation = 0;
+  float wheel_radius = 0;
+
 };
 
 
@@ -93,6 +97,10 @@ private:
   float command_later;
   bool flag_current_on;
 
+  float PERIMETRO;
+  float PERIMETRO_ENTRE_RODAS;
+
+
   enum SOBOT_STATE {
         FORWARD, //0
         BACKWARD, //1
@@ -109,6 +117,10 @@ private:
   SOBOT_STATE sobot_status ;
   SOBOT_STATE old_sobot_status ;
   SOBOT_STATE sobot_movement_status ;
+  SOBOT_STATE update_rate ;
+  SOBOT_STATE wheel_separation ;
+  SOBOT_STATE wheel_radius ;
+
   };
 }  // namespace sobot_drive
 
