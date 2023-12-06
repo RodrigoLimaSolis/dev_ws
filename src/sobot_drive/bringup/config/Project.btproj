@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" project_name="Project">
+    <include path="my_nav_to_pose_bt.xml"/>
+    <!-- Description of Node Models (used by Groot) -->
+    <TreeNodesModel>
+        <Action ID="BackUp" editable="true">
+            <input_port name="backup_dist"/>
+            <input_port name="backup_speed"/>
+        </Action>
+        <Action ID="ClearEntireCostmap" editable="true">
+            <input_port name="service_name"/>
+        </Action>
+        <Action ID="ComputePathToPose" editable="true">
+            <input_port name="goal"/>
+            <input_port name="path"/>
+            <input_port name="planner_id"/>
+            <input_port name="server_name"/>
+            <input_port name="server_timeout"/>
+        </Action>
+        <Action ID="FollowPath" editable="true">
+            <input_port name="path"/>
+            <input_port name="controller_id"/>
+            <input_port name="goal_checker_id"/>
+        </Action>
+        <Action ID="GoalUpdated" editable="true"/>
+        <Control ID="PipelineSequence" editable="true"/>
+        <Decorator ID="RateController" editable="true">
+            <input_port name="hz"/>
+        </Decorator>
+        <Control ID="RecoveryNode" editable="true">
+            <input_port name="number_of_retries"/>
+        </Control>
+        <Control ID="RoundRobin" editable="true"/>
+        <Action ID="Spin" editable="true">
+            <input_port name="spin_dist"/>
+        </Action>
+        <Action ID="Wait" editable="true">
+            <input_port name="wait_duration"/>
+        </Action>
+        <Action ID="spimn" editable="true"/>
+    </TreeNodesModel>
+</root>

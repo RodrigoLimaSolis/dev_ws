@@ -6,5 +6,5 @@
     <!-- <xacro:include filename="gazebo_control.xacro" /> -->
 
     <xacro:include filename="ros2_control_sim.xacro" />
-
+    <xacro:include filename="lidar.xacro" />
 </robot>
