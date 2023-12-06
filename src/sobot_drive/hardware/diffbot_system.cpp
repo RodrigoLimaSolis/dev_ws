@@ -365,7 +365,7 @@ hardware_interface::return_type sobot_drive ::SobotDriveHardware::write(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
     RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "Writing...");
-  
+
     RCLCPP_INFO(
       rclcpp::get_logger("SobotDriveHardware"), "Hw_commands[0]: %f e o ultimo: %f", 
       hw_commands_[0], command_later);
