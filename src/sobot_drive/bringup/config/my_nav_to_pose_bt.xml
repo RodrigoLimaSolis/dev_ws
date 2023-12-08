@@ -5,7 +5,7 @@
     <RecoveryNode name="NavigateRecovery"
                   number_of_retries="6">
       <PipelineSequence name="NavigateWithReplanning">
-        <RateController hz="0.3">
+        <RateController hz="1">
           <RecoveryNode name="ComputePathToPose"
                         number_of_retries="3">
             <ComputePathToPose goal="{goal}"
