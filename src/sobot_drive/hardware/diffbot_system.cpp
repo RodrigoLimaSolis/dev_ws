@@ -231,117 +231,6 @@ hardware_interface::CallbackReturn SobotDriveHardware::on_deactivate(
 hardware_interface::return_type SobotDriveHardware::read(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & period)
 {
-
-
-
-  // Rotina para coletar os valores
-  std::string  retorno = "";
-  retorno = comms_.read_status();
-  RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),
-      "Comandos retornados %s",retorno.c_str());
-
-  //MT0 MS D+00000,26
-  //Verificar se está indo pra frente ou pra trás
-  
-    retorno[14] = '.';
-    std::stringstream num_status;
-    for (int i = 10; i < 17; i++) {
-        num_status << retorno[i];
-    }
-    std::cout << num_status.str();
-    float temp_position = 0;
-    
-    temp_position = std::stof(num_status.str());
-
-    
-    if((sobot_movement_status == FORWARD)||(sobot_movement_status == BACKWARD)){
-      
-      temp_position = temp_position / 1000 / 0.314159265 * 360 * M_PI / 180.0;
-
-      if(retorno[8] == '-') temp_position *= -1;
-      hw_velocities_[0] = (temp_position / period.seconds());
-      hw_velocities_[1] = (temp_position / period.seconds());
-
-      hw_positions_[0] += temp_position; 
-      hw_positions_[1] += temp_position;
-      
-      }
-
-
-    if((sobot_movement_status == RIGHT)||(sobot_movement_status == LEFT)){
-      
-      temp_position = temp_position / 1000 / 0.314159265 * 360 * M_PI / 180.0;
-
-      if(sobot_movement_status == RIGHT){
-        hw_velocities_[0] = (temp_position / period.seconds());
-        hw_velocities_[1] = ((temp_position * -1) / period.seconds());
-        hw_positions_[0] += temp_position;
-        hw_positions_[1] += temp_position * -1;
-      }
-      
-      else{
-        hw_velocities_[0] = ((temp_position * -1) / period.seconds());
-        hw_velocities_[1] = ( temp_position / period.seconds());
-        hw_positions_[0] += temp_position * -1;
-        hw_positions_[1] += temp_position;
-      }
-    }
-
-
-    if((sobot_movement_status == RIGHT_DIFF_FORWARD)||(sobot_movement_status == LEFT_DIFF_FORWARD)){
-      
-      temp_position = temp_position / 1000 / 0.314159265 * 360 * M_PI / 180.0;
-     
-      if(sobot_movement_status == RIGHT_DIFF_FORWARD){
-        
-        hw_velocities_[0] = temp_position / period.seconds();
-        hw_positions_[0] += temp_position;
-        
-        temp_position = temp_position / 1.298850575;
-        
-        hw_velocities_[1] = temp_position / period.seconds();
-        hw_positions_[1] += temp_position;
-      }
-      else{
-        hw_velocities_[1] = temp_position / period.seconds();
-        hw_positions_[1] += temp_position;
-        
-        temp_position = temp_position / 1.298850575;
-        
-        hw_velocities_[0] = temp_position / period.seconds();
-        hw_positions_[0] += temp_position;
-      }
-    
-    }
-    if((sobot_movement_status == RIGHT_DIFF_BACKWARD)||(sobot_movement_status == LEFT_DIFF_BACKWARD))
-    {
-      
-      temp_position = temp_position / 1000 / 0.314159265 * 360 * M_PI / 180.0;
-      temp_position *= -1;
-      
-      if(sobot_movement_status == RIGHT_DIFF_FORWARD){
-        
-        hw_velocities_[0] = temp_position / period.seconds();
-        hw_positions_[0] += temp_position;
-        
-        temp_position = temp_position / 1.298850575;
-        
-        hw_velocities_[1] = temp_position / period.seconds();
-        hw_positions_[1] += temp_position;
-      }
-      else
-      {
-        hw_velocities_[1] = temp_position / period.seconds();
-        hw_positions_[1] += temp_position;
-        
-        temp_position = temp_position / 1.298850575;
-
-        
-        hw_velocities_[0] = temp_position / period.seconds();
-        hw_positions_[0] += temp_position;
-      }
-    }
-  
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   for (std::size_t i = 0; i < hw_velocities_.size(); i++)
   {
@@ -507,19 +396,6 @@ hardware_interface::return_type sobot_drive ::SobotDriveHardware::write(
               sprintf(command_sobot, "MT0 D-%d,%d%d DF L RI%d V%d",int(delta_ang_graus/cfg_.update_rate), int(delta_ang_graus/cfg_.update_rate*10)%10, int(delta_ang_graus/cfg_.update_rate*100)%10,int(raio_separacao*1000), int(distancia_right*100));
               comms_.send_msg(command_sobot);
               break;
-          
-      //     case PAUSE:
-              
-      //         comms_.send_msg("LT E1 RD50 GR00 BL50");
-      //         comms_.send_msg("MT0 MP");
-      //         break;
-
-
-      //     case BREAK:
-              
-      //         comms_.send_msg("LT E1 RD50 GR00 BL00");
-      //         comms_.send_msg("MT0 MB");
-      //         break;
       }
       
       RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"),"Mandando %s, distância: %f, raio: %f",command_sobot, distancia, raio_curva);
