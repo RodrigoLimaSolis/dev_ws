@@ -75,7 +75,7 @@ ros2 run demo_nodes_cpp talker
 ```
 
 ## Executando a Navegação Autônoma
-![](imgs\nav.png)
+![](./imgs/nav.png)
 ### 1.	Script
 Automaticamente todos os programas serão iniciados.
 ```
@@ -102,7 +102,7 @@ ros2 launch sobot_drive navigation_launch.py
 ```
 
 ## Executando a simulação no Gazebo
-![](imgs\gazebo_horz_pos_topbar.svg)
+![](./imgs/gazebo.svg)
 ### 1.	Script
 ```
 ~/dev_ws/script/gazebo.sh
