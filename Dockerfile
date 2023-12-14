@@ -9,7 +9,7 @@ RUN apt-get update \
     iproute2 \
     wget \
     ros-humble-ros2-control \
-    ros-humble-demo-nodes-py && \
+    ros-humble-demo-nodes-py \
     libserial-dev\
     ros-humble-xacro\
     pip\
