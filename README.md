@@ -46,11 +46,16 @@
    ```
 
 ### 5. Buildando a imagem.
+   ! Essa etapa dependendo do processamento e da internet pode demorar bastante - 600s levou o último build
    ```
-   docker image build -t ros2_humble ~/dev_ws/Dockerfile
+   docker image build -t ros2_humble ~/dev_ws/
    ```
 
 ### 6. Crie um container com base nessa imagem.
+   No código a seguir temos que referenciar em quais portas USB queremos ter acesso dentro container, portanto é necessário saber em quais portas elas estão conectadas em nossa raspberry.
+   * A placa de controle: `/dev/ttyACM0`
+   * O Lidar: `/dev/ttyUSB0`
+
    ```
    docker run -it --user ros --network=host --ipc=host -v ~/dev_ws/dev_ws:/dev_ws -v /tmp/.X11-unix:/tmp/.X11-unix:rw -env=DISPLAY   --device=/dev/ttyACM0  --device=/dev/ttyUSB0  --name ros2_image ros2_humble  
    ```
@@ -75,7 +80,7 @@
 ### 2. Baixando dependencias.
    ```
    rosdep update --rosdistro=$ROS_DISTRO  
-   apt-get update  
+   sudo apt-get update  
    rosdep install --from-paths src --ignore-src -r -y
    ```
 
