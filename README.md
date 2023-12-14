@@ -88,6 +88,12 @@
    ```
    colcon build --symlink-install
    ```
+### 3. Tornando os scripts executáveis.
+   ```
+   chmod +x /dev_ws/script/lidar.sh 
+   chmod +x /dev_ws/script/ros2_control.sh 
+   chmod +x /dev_ws/script/teleop.sh 
+   ```
 
 
 ## Executando os Pacotes
