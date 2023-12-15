@@ -19,6 +19,17 @@ git clone -b desktop https://github.com/RodrigoLimaSolis/dev_ws.git
 ### 4.	ROS2 Humble.
 Link da documentação de referência: [Ubuntu Debian packages](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
 ```
+sudo apt install software-properties-common
+sudo add-apt-repository universe
+
+sudo apt update && sudo apt install curl -y
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+sudo apt update
+sudo apt upgrade
+
 sudo apt install ros-humble-desktop
 sudo apt install ros-dev-tools
 ```
@@ -26,9 +37,13 @@ sudo apt install ros-dev-tools
 
 ### 5.	Configurações do Ambiente ROS2
 Link da documentação de referência: [Configuring environment](https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Configuring-ROS2-Environment.html)
+
 ```
 echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash " >> ~/.bashrc
 echo "source ~/dev_ws/install/setup.bash" >> ~/.bashrc
+echo "export ROS_DOMAIN_ID=1" >> ~/.bashrc
+echo "export ROS_LOCALHOST_ONLY=5" >> ~/.bashrc
 ```
 
 ### 6.	Bibliotecas Auxiliares
@@ -131,7 +146,7 @@ ros2 launch sobot_gazebo online_async_launch.py use_sim_time:=true
 O slam_toolbox será iniciado com todas as configurações para rodar no ambiente virtual.
 ### 5.	 NAV2
 ```
-ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true
+ros2 launch sobot_gazebo navigation_launch.py use_sim_time:=true"
 ```
 
 Vamos ter o nav2 iniciado e configurado para rodar com base no ambiente de simulação
