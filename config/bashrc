@@ -1,3 +1,5 @@
 source /opt/ros/humble/setup.bash
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
 source /dev_ws/install/setup.bash
+export ROS_LOCALHOST_ONLY=1
+export ROS_DOMAIN_ID=5

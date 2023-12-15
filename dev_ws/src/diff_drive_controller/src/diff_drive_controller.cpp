@@ -236,8 +236,6 @@ controller_interface::return_type DiffDriveController::update(
 
   auto & last_command = previous_commands_.back().twist;
   auto & second_to_last_command = previous_commands_.front().twist;
-
-  RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "X: %f  Y: %f",linear_command, angular_command);
   if (linear_command != 0){
     if (linear_command > 0){
     limiter_linear_.max_acceleration_ = linear_command/params_.time_max_acceleration;
@@ -259,11 +257,6 @@ controller_interface::return_type DiffDriveController::update(
       limiter_angular_.min_acceleration_ = angular_command/params_.time_min_acceleration;
       }
   }
-  RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "X: %f  Y: %f",linear_command, angular_command);
-  RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "Linear - max_acc: %f  min_acc: %f",  limiter_linear_.max_acceleration_, limiter_linear_.min_acceleration_);
-  RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "Angular - max_acc: %f  min_acc: %f",  limiter_angular_.max_acceleration_, limiter_angular_.min_acceleration_);
-
-
   limiter_linear_.limit(
     linear_command, last_command.linear.x, second_to_last_command.linear.x, period.seconds());
   limiter_angular_.limit(

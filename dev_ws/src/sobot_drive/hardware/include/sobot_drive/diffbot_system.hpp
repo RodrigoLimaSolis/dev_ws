@@ -82,9 +82,6 @@ public:
     const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
 private:
-  // Parameters for the DiffBot simulation
-  double hw_start_sec_;
-  double hw_stop_sec_;
 
   // Store the command for the simulated robot
   SobotCommns comms_;
@@ -94,32 +91,9 @@ private:
   std::vector<double> hw_positions_;
   std::vector<double> hw_velocities_;
 
-  float command_later;
-  bool flag_current_on;
 
-  float PERIMETRO;
-  float PERIMETRO_ENTRE_RODAS;
-
-
-  enum SOBOT_STATE {
-        FORWARD, //0
-        BACKWARD, //1
-        RIGHT, //2
-        LEFT, //3
-        RIGHT_DIFF_FORWARD, //4
-        LEFT_DIFF_FORWARD, //5
-        RIGHT_DIFF_BACKWARD, //6
-        LEFT_DIFF_BACKWARD, //7
-        PAUSE, //8
-        BREAK, //9
-    };
-    
-  SOBOT_STATE sobot_status ;
-  SOBOT_STATE old_sobot_status ;
-  SOBOT_STATE sobot_movement_status ;
-  SOBOT_STATE update_rate ;
-  SOBOT_STATE wheel_separation ;
-  SOBOT_STATE wheel_radius ;
+  float RAD_TOTAL;
+  int PULSOS_TOTAIS;
 
   };
 }  // namespace sobot_drive

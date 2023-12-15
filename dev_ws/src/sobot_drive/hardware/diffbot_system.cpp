@@ -47,26 +47,14 @@ hardware_interface::CallbackReturn SobotDriveHardware::on_init(
   cfg_.wheel_radius = std::stof(info_.hardware_parameters["wheel_radius"]);
 
 
-  // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
-  hw_start_sec_ = std::stod(info_.hardware_parameters["example_param_hw_start_duration_sec"]);
-  hw_stop_sec_ = std::stod(info_.hardware_parameters["example_param_hw_stop_duration_sec"]);
-
   // END: This part here is for exemplary purposes - Please do not copy to your production code
   hw_positions_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_velocities_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
-  old_hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
 
+  PULSOS_TOTAIS = 2400;
+  RAD_TOTAL = 2 * M_PI;
 
-  PERIMETRO = cfg_.wheel_radius * 2 * M_PI;
-  
-  
-  sobot_movement_status = PAUSE;
-  sobot_status = PAUSE;
-  old_sobot_status = PAUSE;
-
-  command_later = 0;
-  flag_current_on = false;
 
   for (const hardware_interface::ComponentInfo & joint : info_.joints)
   {
@@ -168,13 +156,6 @@ hardware_interface::CallbackReturn SobotDriveHardware::on_activate(
   comms_.send_msg("MT0 E1");
 
 
-
-  for (auto i = 0; i < hw_start_sec_; i++)
-  {
-    rclcpp::sleep_for(std::chrono::seconds(1));
-    RCLCPP_INFO(
-    rclcpp::get_logger("SobotDriveHardware"), "%.1f seconds left...", hw_start_sec_ - i);
-  }
   // END: This part here is for exemplary purposes - Please do not copy to your production code
 
   // set some default values
@@ -210,12 +191,6 @@ hardware_interface::CallbackReturn SobotDriveHardware::on_deactivate(
 
   comms_.disconnect();
 
-  for (auto i = 0; i < hw_stop_sec_; i++)
-  {
-    rclcpp::sleep_for(std::chrono::seconds(1));
-    RCLCPP_INFO(
-      rclcpp::get_logger("SobotDriveHardware"), "%.1f seconds left...", hw_stop_sec_ - i);
-  }
   // END: This part here is for exemplary purposes - Please do not copy to your production code
 
   RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "Successfully deactivated!");
@@ -239,7 +214,6 @@ hardware_interface::return_type SobotDriveHardware::read(
     // Simply integrates
     
   //hw_positions_[i] = hw_positions_[i] + period.seconds() * hw_velocities_[i];
-
     RCLCPP_INFO(
       rclcpp::get_logger("SobotDriveHardware"),
       "Got position state %.5f and velocity state %.5f for '%s'!", hw_positions_[i],
@@ -253,14 +227,30 @@ hardware_interface::return_type SobotDriveHardware::read(
 hardware_interface::return_type sobot_drive ::SobotDriveHardware::write(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
+
+
     float pulso_left = (hw_commands_[0] * PULSOS_TOTAIS) / RAD_TOTAL; 
-    float pulso_right = (hw_commands_[0] * PULSOS_TOTAIS) / RAD_TOTAL; 
-    sprintf(command_sobot, "MT1 P%f MT2 P%f", pulso_left, pulso_right);
+    float pulso_right = (hw_commands_[1] * PULSOS_TOTAIS) / RAD_TOTAL; 
+
+    char command_sobot[100];
+  
+
+    int pulsos_left[3], pulsos_right[3];
+    pulsos_left[0] = int(pulso_left);
+    pulsos_left[1] = abs(int(pulso_left * 10)%10);
+    pulsos_left[2] = abs(int(pulso_left * 100)%10);
+
+    pulsos_right[0] = int(pulso_right);
+    pulsos_right[1] = abs(int(pulso_right * 10)%10);
+    pulsos_right[2] = abs(int(pulso_right * 100)%10);
+
+    sprintf(command_sobot, "MT1 E1 PS%d,%d%d MT2 E1 PS%d,%d%d", pulsos_left[0], pulsos_left[1], pulsos_left[2], pulsos_right[0], pulsos_right[1], pulsos_right[2]);
     comms_.send_msg(command_sobot);
+    RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "Enviando o seguinte comando: %s", command_sobot);
+    RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "-----------------------------------------------");
 
 
-  // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
-  RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "Writing...");
+
   for (auto i = 0u; i < hw_commands_.size(); i++)
   {
     // Simulate sending commands to the hardware
@@ -270,8 +260,6 @@ hardware_interface::return_type sobot_drive ::SobotDriveHardware::write(
 
     hw_velocities_[i] = hw_commands_[i];
   }
-  RCLCPP_INFO(rclcpp::get_logger("SobotDriveHardware"), "Joints successfully written!");
-  // END: This part here is for exemplary purposes - Please do not copy to your production code
 
   return hardware_interface::return_type::OK;
 }
