@@ -95,8 +95,8 @@
    chmod +x /dev_ws/script/ros2_control.sh 
    chmod +x /dev_ws/script/teleop.sh
 
-   chmod 777 /dev/ttyUSB0
-   chmod 777 /dev/ttyACM0 
+   sudo chmod 777 /dev/ttyUSB0
+   sudo chmod 777 /dev/ttyACM0 
    ```
 
 
