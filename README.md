@@ -70,7 +70,7 @@
    ros2 run demo_nodes_cpp talker
    ```
 
-## Buildando os pacotes do ros2_control
+## Buildando os pacotes do Ros2_control e Lidar
 
 ### 1. Entre em seu workspace dentro do container.
    ```
@@ -89,11 +89,14 @@
    colcon build --symlink-install
    ```
 
-### 4. Tornando os scripts executáveis.
+### 4. Tornando os scripts e a portas USB executáveis.
    ```
    chmod +x /dev_ws/script/lidar.sh 
    chmod +x /dev_ws/script/ros2_control.sh 
-   chmod +x /dev_ws/script/teleop.sh 
+   chmod +x /dev_ws/script/teleop.sh
+
+   chmod 777 /dev/ttyUSB0
+   chmod 777 /dev/ttyACM0 
    ```
 
 

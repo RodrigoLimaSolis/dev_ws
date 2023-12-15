@@ -13,10 +13,8 @@ RUN apt-get update \
     libserial-dev\
     ros-humble-xacro\
     pip\
-    ros-humble-rplidar-ros\
     ros-humble-generate-parameter-library\
     && rm -rf /var/lib/apt/lists/*
-
 
 # Create a non-root user
 ARG USERNAME=ros

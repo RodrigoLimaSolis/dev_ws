@@ -14,8 +14,7 @@ def generate_launch_description():
                 'serial_baudrate': 115200,  # A1 / A2
                 'frame_id': 'laser_frame',
                 'inverted': False,
-                'angle_compensate': True,
-                'scan_mode': 'Sensitivity'
+                'angle_compensate': True
             }],
         ),
     ])
