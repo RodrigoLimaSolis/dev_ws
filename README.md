@@ -1,10 +1,3 @@
-This example Dockerfile is from the following tutorial: xxxx.
+Este é o repositório central 
 
-It borrows heavily from [Allison Thackston's Dockerfile repo](https://github.com/athackst/dockerfiles) and the [OSRF Docker images](https://github.com/osrf/docker_images) were also used for inspiration.
-
-
-
-RUN cd dev_ws
-RUN rosdep update --rosdistro=$ROS_DISTRO
-RUN apt-get update
-RUN rosdep install --from-paths src --ignore-src -r -y
+Mas estou pensando seriamente em excluir e deixar apenas o raspberry e o linux.
